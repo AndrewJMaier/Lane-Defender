@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int _lives;
     //UI variables
     [SerializeField] private TMP_Text _highScoreText;
+    [SerializeField] private TMP_Text _scoreText;
+    [SerializeField] private TMP_Text _livesText;
     [SerializeField] private GameObject _loseScreen;
     
     // Start is called before the first frame update
@@ -31,6 +33,10 @@ public class GameManager : MonoBehaviour
         if (_lives <= 0)
         {
             _loseScreen.SetActive(true);
+        }
+        else 
+        {
+            _livesText.text = ("Lives: " + _lives);//.ToString();
         }
     }
 

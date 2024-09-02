@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     private float moveDirection;
     //GameObjects
     [SerializeField] private GameObject _playerBullet;
+    [SerializeField] private Transform _bulletSpawn;
     //floats
     [SerializeField] private float _speed;
     //other Variables
@@ -60,15 +61,14 @@ public class PlayerController : MonoBehaviour
         if (moving)
         {
             moveDirection = move.ReadValue<float>();
+            _rb.velocity = new Vector2(0, _speed * moveDirection);
         }
-    }
-    private void FixedUpdate()
-    {
-        if (moving)
+        else
         {
-            gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, _speed * moveDirection);
+            _rb.velocity = Vector2.zero;
         }
     }
+    
 
     /*private void OnShoot()
     {
@@ -77,7 +77,7 @@ public class PlayerController : MonoBehaviour
     */
     private IEnumerator Shooting()
     {
-        Instantiate(_playerBullet);
+        GameObject bulletInstance = Instantiate(_playerBullet, _bulletSpawn.position, _bulletSpawn.rotation);
         yield return new WaitForSeconds(1);
     }
         
