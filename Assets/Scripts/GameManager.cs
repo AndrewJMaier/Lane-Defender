@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,27 +15,26 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TMP_Text _scoreText;
     [SerializeField] private TMP_Text _livesText;
     [SerializeField] private GameObject _loseScreen;
-    
+    [SerializeField] private AudioClip _lifeLostAudio;
+
     // Start is called before the first frame update
     void Start()
     {
         _lives = 3;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    //Reduces player lives
     public void LifeLost()
     {
         _lives--;
+        GetComponent<AudioSource>().loop = false;
+        GetComponent<AudioSource>().clip = _lifeLostAudio;
+        GetComponent<AudioSource>().Play();
         if (_lives <= 0)
         {
             _loseScreen.SetActive(true);
         }
-        else 
+        else
         {
             _livesText.text = ("Lives: " + _lives);//.ToString();
         }
@@ -46,5 +46,10 @@ public class GameManager : MonoBehaviour
         {
             _highScore = _score;
         }
+    }
+
+    public void Restart()
+    {
+        SceneManager.LoadScene(0);
     }
 }

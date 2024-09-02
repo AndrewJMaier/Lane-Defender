@@ -21,6 +21,7 @@ public class EnemySpawn : MonoBehaviour
         if (_canSpawn)
         {
             _canSpawn = false;
+            StartCoroutine(SpawnCooldown());
             randomTarget = Random.Range(0, 5);
             targetSpawnPoint = _enemySpawnPoints[randomTarget];
             enemySpawn = Random.Range(0, 3);

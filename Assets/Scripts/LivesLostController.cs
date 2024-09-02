@@ -8,6 +8,7 @@ public class LivesLostController : MonoBehaviour
     {
         if(other.gameObject.CompareTag("Enemy"))
         {
+            //Destroys enemy when they enter killbox
             Destroy(other.gameObject);
 
         }

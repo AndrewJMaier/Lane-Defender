@@ -12,6 +12,9 @@ public class EnemyController : MonoBehaviour
     private bool stunned;
     [SerializeField] private int _stunDuration;
     [SerializeField] private Animator _animator;
+    //Audio
+    [SerializeField] private AudioClip _explosion;
+    [SerializeField] private AudioClip _dead;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,6 +25,7 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        //checks if enemy is stunned and sets velocity to reflect that
         if (!stunned)
         {
             _rb.velocity = new Vector2(_speed, 0);
@@ -47,14 +51,23 @@ public class EnemyController : MonoBehaviour
             StartCoroutine(Stunned());
             _animator.SetBool("Hit", true);
             _animator.SetBool("Walk", false);
+            //plays EnemyHit sound effect
+            GetComponent<AudioSource>().loop = false;
+            GetComponent<AudioSource>().clip = _explosion;
+            GetComponent<AudioSource>().Play();
             if ( _enemyHealth <= 0)
             {
                 _animator.SetBool("Dead", true);
+                //plays enemy dead sound effect
+                GetComponent<AudioSource>().loop = false;
+                GetComponent<AudioSource>().clip = _dead;
+                GetComponent<AudioSource>().Play();
                 //EnemyDeath();
             }
         }
     }
 
+    //Destroys enemy
     public void EnemyDeath()
     {
         Destroy(gameObject);

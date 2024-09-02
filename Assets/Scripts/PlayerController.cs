@@ -18,8 +18,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform _bulletSpawn;
     //floats
     [SerializeField] private float _speed;
+    //Bool variables
+    private bool shooting;
     //other Variables
     [SerializeField] private Rigidbody2D _rb;
+    [SerializeField] private Animator _animator;
 
 
     // Start is called before the first frame update
@@ -37,12 +40,14 @@ public class PlayerController : MonoBehaviour
 
     private void Shoot_canceled(InputAction.CallbackContext obj)
     {
-        StopAllCoroutines();
+        shooting = false;
+        _animator.SetBool("Shooting", false);
     }
 
     private void Shoot_started(InputAction.CallbackContext obj)
     {
-        StartCoroutine(Shooting());
+        shooting = true;
+        _animator.SetBool("Shooting", true);
     }
 
     private void Move_canceled(InputAction.CallbackContext obj)
@@ -67,6 +72,11 @@ public class PlayerController : MonoBehaviour
         {
             _rb.velocity = Vector2.zero;
         }
+
+        if (shooting)
+        {
+            StartCoroutine(Shooting());
+        }
     }
     
 
@@ -78,7 +88,7 @@ public class PlayerController : MonoBehaviour
     private IEnumerator Shooting()
     {
         GameObject bulletInstance = Instantiate(_playerBullet, _bulletSpawn.position, _bulletSpawn.rotation);
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(2);
     }
         
 }
